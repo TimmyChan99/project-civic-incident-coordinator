@@ -9,3 +9,4 @@ htmlcov/
 data/*.db
 data/*.db-*
 .env
+.vscode/
