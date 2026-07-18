@@ -49,11 +49,10 @@ Every execution receives a UUID correlation ID. Each graph node records status, 
 
 ## Known limitations
 
-1. Google shut down the assignment-required `gemini-2.5-flash` endpoint on June 1, 2026; live calls require an authorized model migration.
-2. Pending human-review checkpoints are process-local and do not survive restarts.
-3. SQLite is designed for one application instance in this MVP.
-4. Outputs can be incomplete, incorrect, or biased and require human judgment.
-5. Authentication, rate limiting, moderation, and municipal system integrations are out of MVP scope.
+1. Pending human-review checkpoints are process-local and do not survive restarts.
+2. SQLite is designed for one application instance in this MVP.
+3. Outputs can be incomplete, incorrect, or biased and require human judgment.
+4. Authentication, rate limiting, moderation, and municipal system integrations are out of MVP scope.
 
 ## Secrets and configuration
 
