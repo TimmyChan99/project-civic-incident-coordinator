@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+    image: civic-incident-coordinator:local
+    env_file:
+      - .env
+    environment:
+      DATABASE_PATH: /app/data/monitoring.db
+    ports:
+      - "8000:8000"
+    volumes:
+      - monitoring_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  monitoring_data:

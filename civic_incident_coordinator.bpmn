@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="CivicIncidentDefinitions" targetNamespace="https://example.org/civic-incident">
+  <process id="CivicIncidentCoordinator" name="Civic Incident Coordinator" isExecutable="false">
+    <startEvent id="report_received" name="Resident report received"><outgoing>f1</outgoing></startEvent>
+    <task id="supervisor" name="Supervisor selects specialists"><incoming>f1</incoming><outgoing>f2</outgoing></task>
+    <parallelGateway id="fork" name="Parallel analysis"><incoming>f2</incoming><outgoing>f3</outgoing><outgoing>f4</outgoing><outgoing>f5</outgoing></parallelGateway>
+    <task id="classification" name="Classification Agent"><incoming>f3</incoming><outgoing>f6</outgoing></task>
+    <task id="impact" name="Community Impact Agent"><incoming>f4</incoming><outgoing>f7</outgoing></task>
+    <task id="dispatch" name="Dispatch Planning Agent"><incoming>f5</incoming><outgoing>f8</outgoing></task>
+    <parallelGateway id="join" name="Join analyses"><incoming>f6</incoming><incoming>f7</incoming><incoming>f8</incoming><outgoing>f9</outgoing></parallelGateway>
+    <task id="work_order" name="Generate work order"><incoming>f9</incoming><outgoing>f10</outgoing></task>
+    <userTask id="review" name="Operator reviews work order"><incoming>f10</incoming><outgoing>f11</outgoing></userTask>
+    <exclusiveGateway id="approval" name="Approved?"><incoming>f11</incoming><outgoing>f12</outgoing><outgoing>f13</outgoing></exclusiveGateway>
+    <endEvent id="rejected" name="Rejected"><incoming>f13</incoming></endEvent>
+    <task id="audit" name="Audit Agent"><incoming>f12</incoming><outgoing>f14</outgoing></task>
+    <task id="extract" name="Priority Extractor"><incoming>f14</incoming><outgoing>f15</outgoing></task>
+    <exclusiveGateway id="router" name="Priority route"><incoming>f15</incoming><outgoing>f16</outgoing><outgoing>f17</outgoing></exclusiveGateway>
+    <task id="emergency" name="Emergency dispatch"><incoming>f16</incoming><outgoing>f18</outgoing></task>
+    <task id="standard" name="Standard queue"><incoming>f17</incoming><outgoing>f19</outgoing></task>
+    <task id="monitoring" name="Monitoring Agent validates trace"><incoming>f18</incoming><incoming>f19</incoming><outgoing>f20</outgoing></task>
+    <endEvent id="complete" name="Run completed"><incoming>f20</incoming></endEvent>
+    <sequenceFlow id="f1" sourceRef="report_received" targetRef="supervisor"/><sequenceFlow id="f2" sourceRef="supervisor" targetRef="fork"/>
+    <sequenceFlow id="f3" sourceRef="fork" targetRef="classification"/><sequenceFlow id="f4" sourceRef="fork" targetRef="impact"/><sequenceFlow id="f5" sourceRef="fork" targetRef="dispatch"/>
+    <sequenceFlow id="f6" sourceRef="classification" targetRef="join"/><sequenceFlow id="f7" sourceRef="impact" targetRef="join"/><sequenceFlow id="f8" sourceRef="dispatch" targetRef="join"/>
+    <sequenceFlow id="f9" sourceRef="join" targetRef="work_order"/><sequenceFlow id="f10" sourceRef="work_order" targetRef="review"/><sequenceFlow id="f11" sourceRef="review" targetRef="approval"/>
+    <sequenceFlow id="f12" name="Yes" sourceRef="approval" targetRef="audit"/><sequenceFlow id="f13" name="No" sourceRef="approval" targetRef="rejected"/>
+    <sequenceFlow id="f14" sourceRef="audit" targetRef="extract"/><sequenceFlow id="f15" sourceRef="extract" targetRef="router"/>
+    <sequenceFlow id="f16" name="Emergency" sourceRef="router" targetRef="emergency"/><sequenceFlow id="f17" name="Standard" sourceRef="router" targetRef="standard"/>
+    <sequenceFlow id="f18" sourceRef="emergency" targetRef="monitoring"/><sequenceFlow id="f19" sourceRef="standard" targetRef="monitoring"/><sequenceFlow id="f20" sourceRef="monitoring" targetRef="complete"/>
+  </process>
+</definitions>
