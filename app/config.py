@@ -2,6 +2,13 @@
 
 import os
 from dataclasses import dataclass
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+# Uvicorn does not automatically read .env. Resolve it from the project root
+# so `uvicorn app.api:app` works regardless of the caller's current directory.
+load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
 # Fixed by the assignment. Google shut this model down on 2026-06-01;
 # see README.md before attempting a live API call.

@@ -109,6 +109,13 @@ Start the service:
 uvicorn app.api:app --reload --host 0.0.0.0 --port 8000
 ```
 
+The application loads `.env` itself; `--env-file` is not required. If you prefer
+Uvicorn to load it explicitly, this equivalent command also works:
+
+```bash
+uvicorn app.api:app --env-file .env --reload --host 0.0.0.0 --port 8000
+```
+
 Open:
 
 - Operations UI: `http://localhost:8000/ui`
